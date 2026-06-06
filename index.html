@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Architect - ผู้สร้างระบบฐานข้อมูล</title>
+    <!-- Google Fonts: Outfit & Sarabun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsPDF for Certificate Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- html2canvas for HTML element to image conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Brython for Python in Browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.4/brython.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.4/brython_stdlib.min.js"></script>
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="brython(1)">
+
+    <div id="stars-container"></div>
+
+    <div class="app-container">
+        
+        <!-- ==================== HOME SCREEN ==================== -->
+        <div id="view-home" class="view">
+            <div class="glass-card hero-card text-center">
+                <div class="logo-area">
+                    <div class="logo-icon"><i class="fa-solid fa-database"></i></div>
+                    <h1>DATABASE ARCHITECT</h1>
+                    <p class="subtitle">ผู้สร้างระบบฐานข้อมูล (Game-Based Learning)</p>
+                </div>
+                <div class="intro-box">
+                    <p class="description">
+                        สวมบทบาทเป็น <strong>System Analyst (SA) ฝึกหัด</strong> ของบริษัท Tech Start-up 
+                        ออกแบบโครงสร้างฐานข้อมูลตามความต้องการของลูกค้าจริง ผ่านบททดสอบทั้ง 3 ด่าน เพื่อก้าวสู่การเป็นสุดยอด SA!
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="student-name"><i class="fa-solid fa-user-astronaut"></i> กรอกชื่อ-นามสกุลของคุณ</label>
+                    <input type="text" id="student-name" placeholder="เช่น นายสมชาย ดีใจ" autocomplete="off">
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="btn-start-game" class="btn btn-primary btn-glow">
+                        <i class="fa-solid fa-play"></i> เริ่มต้นภารกิจ
+                    </button>
+                    <button id="btn-teacher-panel" class="btn btn-secondary">
+                        <i class="fa-solid fa-clipboard-check"></i> สำหรับครูผู้สอน
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TEACHER PANEL ==================== -->
+        <div id="view-teacher" class="view hidden">
+            <div class="glass-card">
+                <div class="card-header">
+                    <button id="btn-back-home" class="btn-icon"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2><i class="fa-solid fa-clipboard-check text-accent"></i> แผงตรวจสอบคะแนนสำหรับอาจารย์</h2>
+                </div>
+                <div class="card-body">
+                    <p class="instruction-text">นำรหัสลับคะแนน (Verification Hash Code) ที่นักเรียนส่งมาวางในช่องด้านล่างเพื่อตรวจสอบความถูกต้องของคะแนนจริง</p>
+                    <div class="form-group">
+                        <label for="hash-input">รหัสลับยืนยันคะแนน</label>
+                        <input type="text" id="hash-input" placeholder="เช่น DB-ARCH-xxxxxxxxxxxxx" autocomplete="off">
+                    </div>
+                    <button id="btn-verify-hash" class="btn btn-primary w-full"><i class="fa-solid fa-key"></i> ตรวจสอบรหัส</button>
+                    
+                    <div id="verify-result" class="verify-result-box hidden">
+                        <!-- Result populated by Brython -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MISSION SELECTION ==================== -->
+        <div id="view-select-mission" class="view hidden">
+            <div class="page-header">
+                <h2><i class="fa-solid fa-briefcase text-accent"></i> เลือกแฟ้มภารกิจลูกค้า</h2>
+                <p>เลือกบริษัทลูกค้าที่คุณต้องการจะเข้าไปออกแบบระบบฐานข้อมูลให้</p>
+            </div>
+            <div class="missions-grid" id="missions-container">
+                <!-- Mission Cards will be populated by Brython -->
+            </div>
+        </div>
+
+        <!-- ==================== CLIENT BRIEF ==================== -->
+        <div id="view-brief" class="view hidden">
+            <div class="glass-card brief-card">
+                <div class="brief-header">
+                    <div class="client-profile">
+                        <div class="client-avatar" id="brief-client-avatar">
+                            <!-- Populated by Brython -->
+                        </div>
+                        <div>
+                            <h3 id="brief-client-name">ชื่อลูกค้า</h3>
+                            <span class="badge" id="brief-client-company">บริษัทลูกค้า</span>
+                        </div>
+                    </div>
+                    <div class="difficulty-indicator" id="brief-difficulty">
+                        <!-- Populated by Brython -->
+                    </div>
+                </div>
+                
+                <div class="chat-container">
+                    <div class="chat-bubble boss">
+                        <div class="avatar"><i class="fa-solid fa-user-tie"></i></div>
+                        <div class="message-content">
+                            <strong>PM (หัวหน้าโครงการ):</strong> "ยินดีต้อนรับทีมออกแบบ! ลูกค้าต้องการระบบฐานข้อมูลใหม่ นี่คือความต้องการจากปากของลูกค้าโดยตรง อ่านบรีฟอย่างละเอียดเพื่อวิเคราะห์ Entities, Attributes และความสัมพันธ์นะ!"
+                        </div>
+                    </div>
+                    <div class="chat-bubble client">
+                        <div class="avatar" id="brief-chat-avatar"><i class="fa-solid fa-user"></i></div>
+                        <div class="message-content">
+                            <strong>ลูกค้า:</strong> 
+                            <span id="brief-text">ความต้องการของลูกค้า...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="brief-footer">
+                    <button id="btn-start-mission" class="btn btn-primary btn-glow w-full">
+                        รับทราบและเริ่มวิเคราะห์ออกแบบ <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MAIN GAMEPLAY AREA ==================== -->
+        <div id="view-game" class="view hidden">
+            <!-- Game Header Status Bar -->
+            <div class="game-status-bar glass-card">
+                <div class="status-left">
+                    <span class="user-display"><i class="fa-solid fa-user-astronaut"></i> <span id="game-user-name">สมชาย</span></span>
+                    <span class="mission-display"><i class="fa-solid fa-folder-open"></i> <span id="game-mission-title">ร้านกาแฟ</span></span>
+                    <button id="btn-view-brief-modal" class="btn btn-secondary btn-small" style="padding: 6px 12px; font-size: 0.8rem; border-radius: 6px; margin-left: 10px; cursor: pointer;">
+                        <i class="fa-solid fa-file-invoice"></i> ดูบรีฟลูกค้า
+                    </button>
+                </div>
+                <div class="stage-nav">
+                    <div class="stage-dot active" id="dot-stage-1" title="ด่านที่ 1: Entities & Attributes">1</div>
+                    <div class="stage-line"></div>
+                    <div class="stage-dot" id="dot-stage-2" title="ด่านที่ 2: Data Types & PK">2</div>
+                    <div class="stage-line"></div>
+                    <div class="stage-dot" id="dot-stage-3" title="ด่านที่ 3: Relationships">3</div>
+                </div>
+                <div class="status-right">
+                    <span class="score-display"><i class="fa-solid fa-star text-warning"></i> คะแนน: <span id="game-score">1000</span></span>
+                    <span class="hearts-display"><i class="fa-solid fa-heart text-danger"></i> ความพึงพอใจ: <span id="game-satisfaction">100</span>%</span>
+                </div>
+            </div>
+
+            <!-- LEVEL 1: Drag & Drop (Entities & Attributes) -->
+            <div id="level-1-container" class="level-container">
+                <div class="level-intro">
+                    <h3>ด่านที่ 1: แยกแยะ Entities & Attributes</h3>
+                    <p>ลาก Attributes ด้านล่างไปหย่อนใส่ Entity (ตาราง) ที่ถูกต้องให้เหมาะสมตามโจทย์</p>
+                </div>
+                
+                <div class="level-1-layout">
+                    <!-- Tables (Target Drops) -->
+                    <div class="tables-board" id="l1-tables-board">
+                        <!-- Populated by Brython -->
+                    </div>
+
+                    <!-- Source items conveyor -->
+                    <div class="conveyor-belt-container">
+                        <h4>คลัง Attribute ข้อมูลลูกค้า (ลากไปใส่ตาราง)</h4>
+                        <div class="conveyor-belt" id="l1-attributes-source">
+                            <!-- Populated by Brython -->
+                        </div>
+                    </div>
+                </div>
+                <div class="level-footer">
+                    <button id="btn-check-l1" class="btn btn-primary btn-glow" disabled>
+                        ตรวจสอบด่านที่ 1 <i class="fa-solid fa-circle-check"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- LEVEL 2: Data Types & PK Configuration -->
+            <div id="level-2-container" class="level-container hidden">
+                <div class="level-intro">
+                    <h3>ด่านที่ 2: เลือกชนิดข้อมูล (Data Types) & Primary Key (PK)</h3>
+                    <p>เลือกชนิดข้อมูลที่ถูกต้องให้กับแต่ละ Attributes และเลือกอย่างน้อย 1 คอลัมน์เป็น Primary Key ของตาราง</p>
+                </div>
+
+                <div class="level-2-layout" id="l2-tables-board">
+                    <!-- Populated by Brython -->
+                </div>
+
+                <div class="level-footer">
+                    <button id="btn-check-l2" class="btn btn-primary btn-glow">
+                        ตรวจสอบชนิดข้อมูล & Keys <i class="fa-solid fa-circle-check"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- LEVEL 3: Relationships (PK -> FK) -->
+            <div id="level-3-container" class="level-container hidden">
+                <div class="level-intro">
+                    <h3>ด่านที่ 3: จับคู่ความสัมพันธ์ของตาราง (One-to-Many Relationships)</h3>
+                    <p>คลิกเลือกปุ่มวงกลมสีทอง 🔑 (Primary Key) จากตารางต้นทาง แล้วลากไปคลิกวงกลมสีเงิน 🔗 (Foreign Key) ของตารางปลายทางเพื่อสร้างเส้นเชื่อมความสัมพันธ์</p>
+                </div>
+
+                <div class="level-3-layout-wrapper">
+                    <!-- The SVG Container for connecting lines -->
+                    <svg id="svg-connections" class="svg-connections-layer">
+                        <defs>
+                            <!-- Marker for arrow/line styling if needed -->
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#00f2fe"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                    
+                    <div class="level-3-layout" id="l3-tables-board">
+                        <!-- Populated by Brython -->
+                    </div>
+                </div>
+
+                <div class="level-footer">
+                    <div class="level-3-controls">
+                        <button id="btn-clear-connections" class="btn btn-secondary">
+                            <i class="fa-solid fa-trash-can"></i> ลบเส้นเชื่อมทั้งหมด
+                        </button>
+                        <button id="btn-check-l3" class="btn btn-primary btn-glow">
+                            ตรวจสอบความสัมพันธ์ ERD <i class="fa-solid fa-rocket"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== FINISH SCREEN ==================== -->
+        <div id="view-finish" class="view hidden">
+            <div class="glass-card result-card text-center">
+                <div class="result-header">
+                    <div class="trophy-icon"><i class="fa-solid fa-trophy"></i></div>
+                    <h2>ภารกิจเสร็จสิ้น!</h2>
+                    <p class="subtitle">คุณผ่านการทดสอบเป็น System Analyst ฝึกหัดแล้ว!</p>
+                </div>
+
+                <div class="result-details glass-card">
+                    <div class="result-row">
+                        <span>ชื่อผู้พัฒนา:</span>
+                        <strong id="finish-student-name">สมชาย ดีใจ</strong>
+                    </div>
+                    <div class="result-row">
+                        <span>ภารกิจที่ทำเสร็จ:</span>
+                        <strong id="finish-mission-title">ระบบคลังสินค้า</strong>
+                    </div>
+                    <div class="result-row font-large text-accent">
+                        <span>คะแนนการประเมิน:</span>
+                        <strong><span id="finish-score">850</span> / 1000</strong>
+                    </div>
+                    <div class="result-row">
+                        <span>ระดับความพึงพอใจของลูกค้า:</span>
+                        <strong><span id="finish-satisfaction">85</span>%</strong>
+                    </div>
+                </div>
+
+                <div class="verification-hash-box">
+                    <p class="hash-title"><i class="fa-solid fa-shield-halved"></i> รหัสลับยืนยันคะแนน (สำหรับส่งครู)</p>
+                    <div class="hash-code-wrapper">
+                        <code id="finish-hash">DB-ARCH-xxxxxxxxxxxxxxx</code>
+                        <button id="btn-copy-hash" class="btn-copy" title="คัดลอกรหัส"><i class="fa-solid fa-copy"></i> คัดลอก</button>
+                    </div>
+                    <p class="hash-help">คัดลอกรหัสข้อมูลนี้ส่งให้คุณครูเพื่อตรวจสอบและบันทึกคะแนนในชั้นเรียน</p>
+                </div>
+
+                <div class="action-buttons mt-large">
+                    <button id="btn-download-cert" class="btn btn-primary btn-glow">
+                        <i class="fa-solid fa-file-pdf"></i> ดาวน์โหลดใบรับรอง PDF
+                    </button>
+                    <button id="btn-restart" class="btn btn-secondary">
+                        <i class="fa-solid fa-rotate-left"></i> ทำภารกิจอื่นต่อ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal for Client Brief -->
+    <div id="modal-brief" class="modal-backdrop hidden">
+        <div class="glass-card modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-file-invoice text-accent"></i> รายละเอียดบรีฟจากลูกค้า</h3>
+                <button id="btn-close-brief-modal" class="btn-icon"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="client-profile-small" style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div class="client-avatar" id="modal-client-avatar" style="width: 40px; height: 40px; font-size: 1.1rem; border-radius: 50%; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); display: flex; align-items: center; justify-content: center; color: white;">☕</div>
+                    <div>
+                        <h4 id="modal-client-name" style="font-size: 1.1rem; font-weight: 600;">ชื่อลูกค้า</h4>
+                        <span class="badge" id="modal-client-company">บริษัทลูกค้า</span>
+                    </div>
+                </div>
+                <div class="brief-content-box" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); max-height: 250px; overflow-y: auto; line-height: 1.6; font-size: 0.95rem;">
+                    <p id="modal-brief-text-content">ความต้องการของลูกค้า...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Certificate Template for PDF generation (html2canvas will capture this) -->
+    <div id="cert-template" class="cert-pdf-template">
+        <div class="cert-border-outer">
+            <div class="cert-border-inner">
+                <div class="cert-header">CERTIFICATE OF COMPLETION</div>
+                <div class="cert-subtitle">เกียรติบัตรผู้ผ่านโครงการออกแบบฐานข้อมูล</div>
+                <div class="cert-award">มอบให้เพื่อแสดงว่า</div>
+                <div class="cert-name" id="cert-student-name">สมชาย ดีใจ</div>
+                <div class="cert-description">
+                    ได้ผ่านการประเมินภารกิจการออกแบบระบบฐานข้อมูลเชิงสัมพันธ์ระดับนักวิเคราะห์ระบบ (System Analyst) ฝึกหัด<br>
+                    ในโครงการจำลองการพัฒนาซอฟต์แวร์ของบริษัท DevBuilder Start-up
+                </div>
+                <div class="cert-mission" id="cert-mission-title">"ระบบร้านกาแฟ Caffeine Hub"</div>
+                
+                <div class="cert-score-box">
+                    <div class="cert-score-item">
+                        <span class="label">คะแนนการประเมิน:</span>
+                        <span class="value" id="cert-score-value">870 / 1000</span>
+                    </div>
+                    <div class="cert-score-item">
+                        <span class="label">ความพึงพอใจของลูกค้า:</span>
+                        <span class="value" id="cert-satisfaction-value">68%</span>
+                    </div>
+                </div>
+                
+                <div class="cert-footer">
+                    <div class="cert-date" id="cert-date-string">วันที่ออกใบรับรอง: 2026-06-04</div>
+                    <div class="cert-hash" id="cert-hash-code">Verification Code: DB-ARCH-XXXX-XXXX</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals or Audio system if needed can be simulated -->
+    <div id="notification" class="notification-toast hidden">ข้อความแจ้งเตือน</div>
+
+    <!-- Main Python Logic written in external file -->
+    <script type="text/python" src="main.py"></script>
+</body>
+</html>
