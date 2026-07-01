@@ -7,6 +7,93 @@ from browser import document, html, window, svg
 
 MISSIONS = [
     {
+        "id": "intro",
+        "title": "ความหมายและคำศัพท์พื้นฐานระบบฐานข้อมูล",
+        "company": "ห้องฝึกอบรม DevBuilder SA",
+        "difficulty": "Intro",
+        "difficulty_class": "diff-easy",
+        "avatar": "📚",
+        "brief": "ยินดีต้อนรับสู่คอร์สปูพื้นฐานก่อนปฏิบัติงานจริงครับ! ก่อนที่เราจะเริ่มออกแบบฐานข้อมูลให้ลูกค้าจริง เราต้องมาทำความเข้าใจแนวคิดพื้นฐานเหล่านี้ก่อนนะครับ:<br>"
+                 "1. <strong>ระบบฐานข้อมูล (Database)</strong>: แหล่งเก็บรวบรวมข้อมูลที่มีความสัมพันธ์กันเพื่อนำไปใช้ประโยชน์ เช่น ระบบสารสนเทศโรงเรียน<br>"
+                 "2. <strong>ระบบจัดการฐานข้อมูล (DBMS)</strong>: ซอฟต์แวร์ตัวกลางที่คอยควบคุมและจัดการข้อมูลให้มีระเบียบและปลอดภัย เช่น MySQL, Oracle, SQL Server<br>"
+                 "3. <strong>ตาราง (Table / Relation)</strong>: โครงสร้างจัดเก็บข้อมูลเป็นแถวและคอลัมน์<br>"
+                 "4. <strong>ส่วนประกอบและบทบาทหน้าที่</strong>: เช่น แถวข้อมูล (Record), คอลัมน์ (Field), และบทบาทอย่าง DBA, Designer, End User<br>"
+                 "มาทำความเข้าใจคำศัพท์พื้นฐานเหล่านี้ให้ถูกต้องกันก่อนลุยงานจริงนะครับ!",
+        "tables": {
+            "database": {
+                "title": "Database (ฐานข้อมูล)",
+                "attributes": {
+                    "ระบบเก็บข้อมูลธนาคาร": {"type": "Field / Attribute", "is_pk": False},
+                    "ระบบสารสนเทศโรงเรียน": {"type": "Field / Attribute", "is_pk": False}
+                }
+            },
+            "dbms": {
+                "title": "DBMS (ระบบจัดการฐานข้อมูล)",
+                "attributes": {
+                    "ซอฟต์แวร์ MySQL / Oracle": {"type": "Field / Attribute", "is_pk": False},
+                    "ซอฟต์แวร์ SQL Server / Access": {"type": "Field / Attribute", "is_pk": False}
+                }
+            },
+            "table": {
+                "title": "Table (ตาราง / ความสัมพันธ์)",
+                "attributes": {
+                    "Rows & Columns (มิติตาราง)": {"type": "Field / Attribute", "is_pk": False},
+                    "ตารางข้อมูล Students": {"type": "Field / Attribute", "is_pk": False}
+                }
+            }
+        },
+        "l2_custom_tables": {
+            "student_table": {
+                "title": "ตารางตัวอย่าง (Students Table)",
+                "attributes": {
+                    "student_id": {"type": "Primary Key (คีย์หลัก)", "is_pk": True},
+                    "first_name": {"type": "Field / Attribute", "is_pk": False},
+                    "ข้อมูลนักเรียน 1 แถว (Row)": {"type": "Record / Tuple", "is_pk": False},
+                    "ตัวเลข หรือ ข้อความตัวอักษร": {"type": "Data Type (ชนิดข้อมูล)", "is_pk": False}
+                }
+            }
+        },
+        "relationships": [
+            {"from_table": "dba", "from_col": "ผู้ดูแลระบบ (DBA)", "to_table": "duties", "to_col": "ติดตั้งซอฟต์แวร์และกำหนดสิทธิ์ผู้ใช้งาน"},
+            {"from_table": "dba", "from_col": "ผู้ดูแลระบบ (DBA)", "to_table": "duties", "to_col": "สำรองและกู้คืนข้อมูลยามระบบเสียหาย"},
+            {"from_table": "designer", "from_col": "ผู้ออกแบบ (Designer)", "to_table": "duties", "to_col": "วิเคราะห์ข้อมูลความต้องการและวาด ERD"},
+            {"from_table": "designer", "from_col": "ผู้ออกแบบ (Designer)", "to_table": "duties", "to_col": "กำหนดโครงสร้างและคีย์หลักของตาราง"},
+            {"from_table": "user", "from_col": "ผู้ใช้งาน (End User)", "to_table": "duties", "to_col": "ป้อนข้อมูลและทำรายการหน้าร้านประจำวัน"},
+            {"from_table": "user", "from_col": "ผู้ใช้งาน (End User)", "to_table": "duties", "to_col": "กดเรียกดูรายงานสรุปยอดขายผ่านโปรแกรม"}
+        ],
+        "l3_custom_tables": {
+            "dba": {
+                "title": "บทบาท: DBA",
+                "attributes": {
+                    "ผู้ดูแลระบบ (DBA)": {"type": "สิทธิ์การจัดการระบบ", "is_pk": True}
+                }
+            },
+            "designer": {
+                "title": "บทบาท: Database Designer",
+                "attributes": {
+                    "ผู้ออกแบบ (Designer)": {"type": "โครงสร้างตาราง", "is_pk": True}
+                }
+            },
+            "user": {
+                "title": "บทบาท: End User",
+                "attributes": {
+                    "ผู้ใช้งาน (End User)": {"type": "การป้อนและค้นข้อมูล", "is_pk": True}
+                }
+            },
+            "duties": {
+                "title": "ภาระหน้าที่ความรับผิดชอบ",
+                "attributes": {
+                    "ติดตั้งซอฟต์แวร์และกำหนดสิทธิ์ผู้ใช้งาน": {"type": "ผู้ดูแลระบบ", "is_pk": False, "is_fk": True},
+                    "สำรองและกู้คืนข้อมูลยามระบบเสียหาย": {"type": "ผู้ดูแลระบบ", "is_pk": False, "is_fk": True},
+                    "วิเคราะห์ข้อมูลความต้องการและวาด ERD": {"type": "ผู้ออกแบบ", "is_pk": False, "is_fk": True},
+                    "กำหนดโครงสร้างและคีย์หลักของตาราง": {"type": "ผู้ออกแบบ", "is_pk": False, "is_fk": True},
+                    "ป้อนข้อมูลและทำรายการหน้าร้านประจำวัน": {"type": "ผู้ใช้งานทั่วไป", "is_pk": False, "is_fk": True},
+                    "กดเรียกดูรายงานสรุปยอดขายผ่านโปรแกรม": {"type": "ผู้ใช้งานทั่วไป", "is_pk": False, "is_fk": True}
+                }
+            }
+        }
+    },
+    {
         "id": "cafe",
         "title": "ระบบร้านกาแฟ Caffeine Hub",
         "company": "Caffeine Hub Ltd.",
@@ -177,7 +264,7 @@ MISSIONS = [
     }
 ]
 
-DATA_TYPE_CHOICES = ["VARCHAR(10)", "VARCHAR(15)", "VARCHAR(50)", "VARCHAR(100)", "INT", "DECIMAL(5,2)", "DATE", "DATETIME", "VARCHAR(5)"]
+DATA_TYPE_CHOICES = ["VARCHAR(10)", "VARCHAR(15)", "VARCHAR(50)", "VARCHAR(100)", "INT", "DECIMAL(5,2)", "DATE", "DATETIME", "VARCHAR(5)", "Primary Key (คีย์หลัก)", "Field / Attribute", "Record / Tuple", "Data Type (ชนิดข้อมูล)"]
 
 # ==================== ENCRYPTION HASH SYSTEM ====================
 
@@ -443,6 +530,20 @@ def init_stage_1():
     
     mission = state.get_active_mission()
     
+    # Dynamic header/text adjustments for intro mission
+    l1_title = document.select_one("#level-1-container .level-intro h3")
+    l1_desc = document.select_one("#level-1-container .level-intro p")
+    l1_conveyor_title = document.select_one("#level-1-container .conveyor-belt-container h4")
+    
+    if mission["id"] == "intro":
+        if l1_title: l1_title.text = "ด่านที่ 1: จับคู่คำศัพท์และคำนิยาม"
+        if l1_desc: l1_desc.text = "ลากตัวอย่างและคำอธิบายด้านล่างไปใส่ในประเภทคำศัพท์หลัก (กล่องนีออน) ให้ถูกต้องตามหลักการ"
+        if l1_conveyor_title: l1_conveyor_title.text = "คลังข้อมูลตัวอย่าง/คำนิยาม (ลากไปจับคู่)"
+    else:
+        if l1_title: l1_title.text = "ด่านที่ 1: แยกแยะ Entities & Attributes"
+        if l1_desc: l1_desc.text = "ลาก Attributes ด้านล่างไปหย่อนใส่ Entity (ตาราง) ที่ถูกต้องให้เหมาะสมตามโจทย์"
+        if l1_conveyor_title: l1_conveyor_title.text = "คลัง Attribute ข้อมูลลูกค้า (ลากไปใส่ตาราง)"
+        
     # Render Tables Dropzones
     tables_board = document["l1-tables-board"]
     tables_board.innerHTML = ""
@@ -635,7 +736,23 @@ def init_stage_2():
     
     state.l2_configurations = {}
     
-    for t_name, t_info in mission["tables"].items():
+    # Dynamic header/text adjustments for intro mission
+    l2_title = document.select_one("#level-2-container .level-intro h3")
+    l2_desc = document.select_one("#level-2-container .level-intro p")
+    btn_check_l2 = document["btn-check-l2"]
+    
+    if mission["id"] == "intro":
+        if l2_title: l2_title.text = "ด่านที่ 2: องค์ประกอบของตารางข้อมูล"
+        if l2_desc: l2_desc.text = "วิเคราะห์และจับคู่ส่วนประกอบของตารางข้อมูลให้ถูกต้อง และเปิดใช้งาน PK สำหรับคีย์หลักของตาราง"
+        if btn_check_l2: btn_check_l2.innerHTML = 'ตรวจสอบองค์ประกอบ & Keys <i class="fa-solid fa-circle-check"></i>'
+    else:
+        if l2_title: l2_title.text = "ด่านที่ 2: เลือกชนิดข้อมูล (Data Types) & Primary Key (PK)"
+        if l2_desc: l2_desc.text = "เลือกชนิดข้อมูลที่ถูกต้องให้กับแต่ละ Attributes และเลือกอย่างน้อย 1 คอลัมน์เป็น Primary Key ของตาราง"
+        if btn_check_l2: btn_check_l2.innerHTML = 'ตรวจสอบชนิดข้อมูล & Keys <i class="fa-solid fa-circle-check"></i>'
+        
+    target_tables = mission.get("l2_custom_tables", mission["tables"])
+    
+    for t_name, t_info in target_tables.items():
         state.l2_configurations[t_name] = {}
         
         table_card = html.DIV(Class="table-card-l2")
@@ -648,15 +765,16 @@ def init_stage_2():
         
         # Grid Header
         grid_head = html.DIV(Class="grid-row-header")
-        grid_head <= html.DIV("ชื่อ Attribute")
-        grid_head <= html.DIV("ชนิดข้อมูล (Data Type)")
+        grid_head <= html.DIV("ส่วนประกอบตาราง" if mission["id"] == "intro" else "ชื่อ Attribute")
+        grid_head <= html.DIV("ระบุคำศัพท์" if mission["id"] == "intro" else "ชนิดข้อมูล (Data Type)")
         grid_head <= html.DIV("PK")
         grid <= grid_head
         
         # Grid Rows for each attribute
         for attr_name in t_info["attributes"]:
             # State initializer for choices
-            state.l2_configurations[t_name][attr_name] = {"type": DATA_TYPE_CHOICES[0], "is_pk": False}
+            choices_list = ["Primary Key (คีย์หลัก)", "Field / Attribute", "Record / Tuple", "Data Type (ชนิดข้อมูล)"] if mission["id"] == "intro" else DATA_TYPE_CHOICES[:9]
+            state.l2_configurations[t_name][attr_name] = {"type": choices_list[0], "is_pk": False}
             
             row = html.DIV(Class="grid-row-data", id=f"l2-row-{t_name}-{attr_name}")
             
@@ -664,7 +782,7 @@ def init_stage_2():
             
             # Select element
             select_type = html.SELECT()
-            for choice in DATA_TYPE_CHOICES:
+            for choice in choices_list:
                 select_type <= html.OPTION(choice, value=choice)
             # Bind choice update
             select_type.bind("change", lambda ev, t=t_name, a=attr_name: on_datatype_change(ev, t, a))
@@ -706,7 +824,8 @@ def check_l2_clicked(ev):
     all_correct = True
     errors_found = 0
     
-    for t_name, t_info in mission["tables"].items():
+    target_tables = mission.get("l2_custom_tables", mission["tables"])
+    for t_name, t_info in target_tables.items():
         correct_attrs = t_info["attributes"]
         user_config = state.l2_configurations[t_name]
         
@@ -731,7 +850,10 @@ def check_l2_clicked(ev):
                 deduct_points(25, 6)
                 
     if all_correct:
-        show_notification("ตั้งค่าโครงสร้างตาราง ชนิดข้อมูล และ Primary Key ถูกต้องทั้งหมด!", "success")
+        if mission["id"] == "intro":
+            show_notification("วิเคราะห์ส่วนประกอบของตารางข้อมูลและคีย์หลักถูกต้องทั้งหมด!", "success")
+        else:
+            show_notification("ตั้งค่าโครงสร้างตาราง ชนิดข้อมูล และ Primary Key ถูกต้องทั้งหมด!", "success")
         
         # Mark stage 2 dot completed
         document["dot-stage-2"].className = "stage-dot completed"
@@ -766,8 +888,21 @@ def init_stage_3():
     state.l3_active_origin = None
     state.l3_temp_line = None
     
+    # Dynamic header/text adjustments for intro mission
+    l3_title = document.select_one("#level-3-container .level-intro h3")
+    l3_desc = document.select_one("#level-3-container .level-intro p")
+    
+    if mission["id"] == "intro":
+        if l3_title: l3_title.text = "ด่านที่ 3: บทบาทและสิทธิ์การเข้าใช้งาน"
+        if l3_desc: l3_desc.text = "คลิกเลือกบทบาทของระบบฐานข้อมูล (วงกลมสีทอง 🔑) แล้วลากเส้นเชื่อมโยงไปยังภาระหน้าที่ความรับผิดชอบ (วงกลมสีเงิน 🔗) ที่ถูกต้อง"
+    else:
+        if l3_title: l3_title.text = "ด่านที่ 3: จับคู่ความสัมพันธ์ของตาราง (One-to-Many Relationships)"
+        if l3_desc: l3_desc.text = "คลิกเลือกปุ่มวงกลมสีทอง 🔑 (Primary Key) จากตารางต้นทาง แล้วลากไปคลิกวงกลมสีเงิน 🔗 (Foreign Key) ของตารางปลายทางเพื่อสร้างเส้นเชื่อมความสัมพันธ์"
+        
+    target_tables = mission.get("l3_custom_tables", mission["tables"])
+    
     # Render Tables with PK and FK indicator nodes
-    for t_name, t_info in mission["tables"].items():
+    for t_name, t_info in target_tables.items():
         table_card = html.DIV(Class="table-card-l3", id=f"l3-table-{t_name}")
         
         header = html.DIV(Class="table-header")
@@ -983,8 +1118,14 @@ def redraw_connections():
         txt_n = svg.text("N", x=x2 - 20, y=y2 - 5, fill="#a4b0be", font_size="12", font_weight="bold")
         
         svg_layer <= path_el
-        svg_layer <= txt_1
-        svg_layer <= txt_n
+        
+        # Text or indicator marking: Draw '1' and 'N' labels next to lines (skipped for intro mission)
+        mission = state.get_active_mission()
+        if mission["id"] != "intro":
+            txt_1 = svg.text("1", x=x1 + 10, y=y1 - 5, fill="#f1c40f", font_size="12", font_weight="bold")
+            txt_n = svg.text("N", x=x2 - 20, y=y2 - 5, fill="#a4b0be", font_size="12", font_weight="bold")
+            svg_layer <= txt_1
+            svg_layer <= txt_n
         
     # Re-append temp line if it exists so it stays on top of other lines
     if state.l3_temp_line:
@@ -1103,23 +1244,13 @@ def copy_hash_clicked(ev):
         temp_input.parent.removeChild(temp_input)
         show_notification("คัดลอกรหัสลับเรียบร้อยแล้ว! (Fallback)", "success")
 
-def download_certificate_clicked(ev):
-    """
-    สร้างเกียรติบัตร PDF จากโครงสร้าง HTML ด้วย html2canvas เพื่อความถูกต้องในการแสดงผลภาษาไทย 100%
-    """
-    mission = state.get_active_mission()
-    name = state.student_name
-    score = state.score
-    satisfaction = state.satisfaction
-    
+def generate_pdf(name, mission_title, score, satisfaction, hash_val, date_str):
     # 1. โหลดข้อมูลลงในเทมเพลต HTML
     document["cert-student-name"].text = name
-    document["cert-mission-title"].text = f'"{mission["title"]}"'
+    document["cert-mission-title"].text = f'"{mission_title}"'
     document["cert-score-value"].text = f"{score} / 1000"
     document["cert-satisfaction-value"].text = f"{satisfaction}%"
-    document["cert-date-string"].text = f"วันที่ออกใบรับรอง: {time.strftime('%Y-%m-%d')}"
-    
-    hash_val = encode_score(name, mission["id"], score, satisfaction)
+    document["cert-date-string"].text = f"วันที่ออกใบรับรอง: {date_str}"
     document["cert-hash-code"].text = f"Verification Code: {hash_val}"
     
     # แสดงข้อความแจ้งเตือนขณะทำงาน
@@ -1147,6 +1278,19 @@ def download_certificate_clicked(ev):
     except Exception as e:
         show_notification("ไม่สามารถสร้างเกียรติบัตรได้: " + str(e), "error")
 
+def download_certificate_clicked(ev):
+    """
+    สร้างเกียรติบัตร PDF จากโครงสร้าง HTML ด้วย html2canvas เพื่อความถูกต้องในการแสดงผลภาษาไทย 100%
+    """
+    mission = state.get_active_mission()
+    name = state.student_name
+    score = state.score
+    satisfaction = state.satisfaction
+    hash_val = encode_score(name, mission["id"], score, satisfaction)
+    date_str = time.strftime('%Y-%m-%d')
+    
+    generate_pdf(name, mission["title"], score, satisfaction, hash_val, date_str)
+
 # ==================== TEACHER VERIFICATION ====================
 
 def verify_hash_clicked(ev):
@@ -1172,15 +1316,26 @@ def verify_hash_clicked(ev):
                 
         html_content = f"""
             <h4 class='text-accent' style='margin-bottom: 12px;'><i class="fa-solid fa-square-check"></i> ผลการตรวจสอบ: รหัสถูกต้อง (Verified)</h4>
-            <div style='display: grid; grid-template-columns: 1fr 2fr; gap: 8px; font-size: 0.9rem;'>
+            <div style='display: grid; grid-template-columns: 1fr 2fr; gap: 8px; font-size: 0.9rem; margin-bottom: 15px;'>
                 <span>ชื่อนักเรียน:</span><strong>{result_data['name']}</strong>
                 <span>ด่านภารกิจ:</span><strong>{m_title}</strong>
                 <span>คะแนนวิเคราะห์:</span><strong>{result_data['score']} / 1000</strong>
                 <span>ความพึงพอใจ:</span><strong>{result_data['satisfaction']}%</strong>
                 <span>วันที่ทำภารกิจ:</span><strong>{result_data['date']}</strong>
             </div>
+            <button id="btn-teacher-download-cert" class="btn btn-primary w-full" style="font-size: 0.9rem; padding: 10px; border-radius: 6px;">
+                <i class="fa-solid fa-file-pdf"></i> ดาวน์โหลดเกียรติบัตร (PDF) ของนักเรียน
+            </button>
         """
         result_box.innerHTML = html_content
+        
+        # Bind teacher certificate download click
+        def download_teacher_cert(e):
+            date_only = result_data["date"].split(" ")[0]
+            generate_pdf(result_data["name"], m_title, result_data["score"], result_data["satisfaction"], hash_txt, date_only)
+            
+        document["btn-teacher-download-cert"].bind("click", download_teacher_cert)
+        
         show_notification("ตรวจสอบรหัสลับสำเร็จ! ข้อมูลตรงกับประวัติการทำภารกิจจริง", "success")
     else:
         result_box.className = "verify-result-box error"
@@ -1234,6 +1389,32 @@ def on_backdrop_click(ev):
     """
     if ev.target.id == "modal-brief":
         close_brief_modal(ev)
+    elif ev.target.id == "modal-manual":
+        close_manual_modal(ev)
+
+def open_manual_modal(ev):
+    document["modal-manual"].classList.remove("hidden")
+    switch_manual_tab("student")
+
+def close_manual_modal(ev):
+    document["modal-manual"].classList.add("hidden")
+
+def switch_manual_tab(tab_name):
+    student_btn = document["tab-student"]
+    teacher_btn = document["tab-teacher"]
+    student_content = document["manual-student-content"]
+    teacher_content = document["manual-teacher-content"]
+    
+    if tab_name == "student":
+        student_btn.classList.add("active-tab")
+        teacher_btn.classList.remove("active-tab")
+        student_content.classList.remove("hidden")
+        teacher_content.classList.add("hidden")
+    else:
+        student_btn.classList.remove("active-tab")
+        teacher_btn.classList.add("active-tab")
+        student_content.classList.add("hidden")
+        teacher_content.classList.remove("hidden")
 
 # ==================== INITIAL EVENT BINDINGS ====================
 
@@ -1259,3 +1440,10 @@ document["btn-restart"].bind("click", exit_to_selection)
 document["btn-view-brief-modal"].bind("click", open_brief_modal)
 document["btn-close-brief-modal"].bind("click", close_brief_modal)
 document["modal-brief"].bind("click", on_backdrop_click)
+
+# Manual controls
+document["btn-how-to-play"].bind("click", open_manual_modal)
+document["btn-close-manual-modal"].bind("click", close_manual_modal)
+document["modal-manual"].bind("click", on_backdrop_click)
+document["tab-student"].bind("click", lambda ev: switch_manual_tab("student"))
+document["tab-teacher"].bind("click", lambda ev: switch_manual_tab("teacher"))

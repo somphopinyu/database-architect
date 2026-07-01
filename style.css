@@ -78,7 +78,7 @@ body {
     animation: fadeIn 0.5s ease-out forwards;
 }
 
-.view.hidden {
+.hidden {
     display: none !important;
 }
 
@@ -174,14 +174,15 @@ h1 {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 24px;
+    padding: 12px 20px;
     border-radius: 8px;
     font-weight: 600;
     font-family: var(--font-heading);
     cursor: pointer;
     transition: all var(--transition-speed);
-    font-size: 1rem;
+    font-size: 0.9rem;
     border: none;
+    white-space: nowrap;
 }
 
 .btn-primary {
@@ -230,8 +231,9 @@ h1 {
 
 .action-buttons {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 /* Form Styling */
@@ -1257,4 +1259,37 @@ select:focus {
     .grid-row-header, .grid-row-data {
         grid-template-columns: 1.5fr 1.5fr 0.5fr;
     }
+}
+
+/* User Manual Tab Styling */
+.tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tab-btn:hover {
+    color: var(--accent-cyan);
+}
+
+.tab-btn.active-tab {
+    color: var(--accent-cyan);
+    border-bottom: 2px solid var(--accent-cyan);
+    font-weight: 600;
+}
+
+.manual-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0px;
 }

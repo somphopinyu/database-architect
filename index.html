@@ -53,6 +53,9 @@
                     <button id="btn-teacher-panel" class="btn btn-secondary">
                         <i class="fa-solid fa-clipboard-check"></i> สำหรับครูผู้สอน
                     </button>
+                    <button id="btn-how-to-play" class="btn btn-secondary">
+                        <i class="fa-solid fa-book-open"></i> คู่มือการเล่นเกม
+                    </button>
                 </div>
             </div>
         </div>
@@ -305,6 +308,66 @@
                 </div>
                 <div class="brief-content-box" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); max-height: 250px; overflow-y: auto; line-height: 1.6; font-size: 0.95rem;">
                     <p id="modal-brief-text-content">ความต้องการของลูกค้า...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for User Manual (How to Play) -->
+    <div id="modal-manual" class="modal-backdrop hidden">
+        <div class="glass-card modal-card" style="max-width: 600px; width: 90%;">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-book-open text-accent"></i> คู่มือแนะนำวิธีใช้งานเกม</h3>
+                <button id="btn-close-manual-modal" class="btn-icon"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <!-- Tab Headers -->
+                <div class="manual-tabs">
+                    <button id="tab-student" class="tab-btn active-tab">
+                        <i class="fa-solid fa-graduation-cap"></i> สำหรับนักเรียน
+                    </button>
+                    <button id="tab-teacher" class="tab-btn">
+                        <i class="fa-solid fa-chalkboard-user"></i> สำหรับครูผู้สอน
+                    </button>
+                </div>
+                
+                <!-- Tab Content: Student -->
+                <div id="manual-student-content" class="manual-tab-content" style="max-height: 350px; overflow-y: auto; line-height: 1.6; font-size: 0.95rem; padding-right: 5px;">
+                    <h4 class="text-accent" style="margin-bottom: 8px;"><i class="fa-solid fa-circle-play"></i> ขั้นตอนการเล่นเกมของนักเรียน</h4>
+                    <ol style="margin-left: 20px; margin-bottom: 20px;">
+                        <li><strong>กรอกชื่อ-นามสกุล</strong> ในหน้าแรก และกดปุ่ม <strong>"เริ่มต้นภารกิจ"</strong></li>
+                        <li><strong>เลือกภารกิจ:</strong> แนะนำให้เริ่มต้นเล่นด่าน 0 (ปูพื้นฐาน) ก่อนเพื่อความเข้าใจคำศัพท์พื้นฐาน จากนั้นเล่นภารกิจอื่นๆ ตามลำดับ</li>
+                        <li><strong>ผ่านด่านทั้ง 3 ระดับ:</strong>
+                            <ul style="margin-left: 20px; list-style-type: circle; margin-top: 5px; margin-bottom: 5px;">
+                                <li><strong>ด่านที่ 1 (วิเคราะห์/แยกแยะ):</strong> ลากข้อมูลจากคลังด้านล่างไปใส่ตารางที่ถูกต้องตามบรีฟ (หากใส่ผิดตู้จะส่งไอเทมคืนกลับมาและหักคะแนนความพึงพอใจของลูกค้า)</li>
+                                <li><strong>ด่านที่ 2 (เลือกชนิดข้อมูล & PK):</strong> เลือกความยาวชนิดข้อมูลให้ตรงตามลักษณะข้อมูล และกดคลิกปุ่มกุญแจ 🔑 เพื่อเปิดใช้งานคีย์หลัก (Primary Key) ของตารางนั้นๆ</li>
+                                <li><strong>ด่านที่ 3 (ลากเส้นความสัมพันธ์):</strong> คลิกที่จุดปุ่มวงกลมสีทอง 🔑 (คีย์หลักตารางต้นทาง) จากนั้นคลิกปุ่มวงกลมสีเงิน 🔗 (คีย์หลัก/คีย์นอกตารางปลายทาง) เพื่อเชื่อมความสัมพันธ์ให้ครบถ้วน</li>
+                            </ul>
+                        </li>
+                        <li><strong>ดาวน์โหลดใบรับรอง:</strong> เมื่อออกแบบ ERD เสร็จสมบูรณ์ ให้คัดลอก <strong>"รหัสยืนยันคะแนน"</strong> ส่งครู และกดดาวน์โหลด <strong>เกียกติบัตร PDF</strong> เพื่อเซฟเก็บเป็นรางวัลส่วนตัว</li>
+                    </ol>
+                    <div style="background: rgba(0,255,242,0.05); border: 1px solid var(--accent-cyan); padding: 12px; border-radius: 6px; font-size: 0.85rem; line-height: 1.5;">
+                        💡 <strong>คำแนะนำเพิ่มเติม:</strong> ผู้เรียนสามารถกดเปิดปุ่ม <strong>"ดูบรีฟลูกค้า"</strong> ที่ลอยอยู่แถบด้านบนสุดตลอดเวลาเพื่อย้อนกลับมาอ่านโจทย์บรีฟในระหว่างทำด่านต่างๆ ได้สะดวกมาก!
+                    </div>
+                </div>
+                
+                <!-- Tab Content: Teacher -->
+                <div id="manual-teacher-content" class="manual-tab-content hidden" style="max-height: 350px; overflow-y: auto; line-height: 1.6; font-size: 0.95rem; padding-right: 5px;">
+                    <h4 class="text-accent" style="margin-bottom: 8px;"><i class="fa-solid fa-circle-check"></i> ขั้นตอนการใช้งานของคุณครู</h4>
+                    <ol style="margin-left: 20px; margin-bottom: 20px;">
+                        <li><strong>เปิดหน้าควบคุมครู:</strong> บนหน้าแรกของเว็บไซต์ ให้คุณครูคลิกปุ่ม <strong>"สำหรับครูผู้สอน"</strong></li>
+                        <li><strong>ตรวจสอบคะแนนแบบออฟไลน์:</strong>
+                            <ul style="margin-left: 20px; list-style-type: circle; margin-top: 5px; margin-bottom: 5px;">
+                                <li>นำรหัสลับคะแนน (เช่น <code>DB-ARCH-xxxxx</code>) ที่นักเรียนส่งมา วางลงในช่องรับรหัส</li>
+                                <li>คลิกปุ่ม <strong>"ตรวจสอบรหัส"</strong></li>
+                                <li>ระบบจะถอดรหัส ชื่อจริงนักเรียน, ด่านภารกิจที่ทำสำเร็จ, คะแนนวิเคราะห์, ความพึงพอใจลูกค้า และวันเวลาทำภารกิจแสดงผลออกมาโดยตรงแบบออฟไลน์ (ไม่ต้องใช้เน็ต)</li>
+                            </ul>
+                        </li>
+                        <li><strong>ออกและปริ้นเกียรติบัตร:</strong> คุณครูสามารถคลิกปุ่ม <strong>"ดาวน์โหลดเกียรติบัตร (PDF) ของนักเรียน"</strong> เพื่อทำการปริ้นหรือบันทึกเก็บเป็นประวัติการทดสอบผ่านแบบทดสอบย้อนหลังของนักเรียนได้ทันที</li>
+                    </ol>
+                    <div style="background: rgba(162,0,255,0.05); border: 1px solid var(--accent-purple); padding: 12px; border-radius: 6px; font-size: 0.85rem; line-height: 1.5;">
+                        🛡️ <strong>ความปลอดภัยข้อมูล (Anti-Cheat):</strong> รหัสลับผ่านการลงลายมือชื่อดิจิทัลและแฮชข้อมูลแบบจำเพาะ ทำให้ไม่สามารถแก้ไขข้อมูลชื่อหรือแก้คะแนนโดยตรงได้ หากรหัสไม่ถูกต้องระบบครูจะปฏิเสธการถอดรหัสทันที
+                    </div>
                 </div>
             </div>
         </div>
