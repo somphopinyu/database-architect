@@ -127,6 +127,15 @@ body {
     padding: 50px 40px;
 }
 
+.author-credits {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
 .logo-icon {
     font-size: 4rem;
     background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
